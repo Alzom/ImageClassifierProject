@@ -40,8 +40,8 @@ train_dir = ".\\data\\plants\\dataset\\images\\labtest"
 test_dir = ".\\data\\plants\\dataset\\images\\labval"
 
 lr = 0.01 #learn rate
-batch = 4 #batch size
-epochs = 1 #number of epochs 
+batch = 32 #batch size
+epochs = 5 #number of epochs 
 pad = 1 #padding
 
 batchnorm_momentum = 0.9
@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
     #transforms
     data_transform = transforms.Compose([
-        transforms.ToPILImage(),
+   
         transforms.CenterCrop(500),
         my_transforms.RandomRot(),
         transforms.RandomHorizontalFlip(),
@@ -61,19 +61,15 @@ if __name__ == '__main__':
     ])
 
     null_transform = transforms.Compose([
-        transforms.ToPILImage(),
         transforms.CenterCrop(500),
         transforms.ToTensor()
     ])
     #training set
     train_set = ImageFolder(root = train_dir , transform = data_transform)
-    
     train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch, shuffle=True)
     
-    
-
     #validation set
-    valid_set = ImageFolder(root = test_dir , transform = null_transform)
+    valid_set = ImageFolder(root = test_dir , transform = data_transform)
     valid_loader = torch.utils.data.DataLoader(valid_set, batch_size=batch, shuffle=True)
     
 
@@ -139,7 +135,9 @@ if __name__ == '__main__':
         network.train()
         total = 0
         correct = 0
+
         for i, (images, labels) in enumerate(train_loader):
+           
             if i % 20 == 0: print('Training batch {} of {}'.format(i, len(train_loader)))
             if cuda:
                 images = images.cuda()
@@ -168,24 +166,24 @@ if __name__ == '__main__':
         print('Validation')
         total = 0
         correct = 0
-        for images, labels in valid_loader:
-            if cuda:
-                images = images.cuda()
-                labels = labels.cuda()
+    for images, labels in valid_loader:
+        if cuda:
+            images = images.cuda()
+            labels = labels.cuda()
 
-            images = Variable(images)
-            labels = Variable(labels.long())
+        images = Variable(images)
+        labels = Variable(labels.long())
 
-            output = network(images)
+        output = network(images)
 
-            _, predicted = torch.max(output.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels.data).sum()
+        _, predicted = torch.max(output.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels.data).sum()
 
-        accuracy = correct / total
-        print('Mean val acc over epoch = {}'.format(accuracy))
-        if accuracy > best_val_acc: best_val_acc = accuracy
-        print('Best val acc = {}'.format(best_val_acc))
+    accuracy = correct / total
+    print('Mean val acc over epoch = {}'.format(accuracy))
+    if accuracy > best_val_acc: best_val_acc = accuracy
+    print('Best val acc = {}'.format(best_val_acc))
 
 
 
