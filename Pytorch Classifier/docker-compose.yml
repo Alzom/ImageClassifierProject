@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  pytorch:
+    restart: always
+    image: pytorch
+    # init: true
+    environment:
+     - NVIDIA_VISIBLE_DEVICES=0
+    build: ./
+    ipc: host
+    user: user
+    runtime: nvidia
+    command: >
+      bash -c "python3 cclass.py"
+    volumes:
+      - ./:/app
+    ports:
+      - "8888:8888"
