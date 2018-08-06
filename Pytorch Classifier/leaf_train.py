@@ -36,8 +36,8 @@ from PIL import Image
 # ])
 
 #Data location
-train_dir = "C:\\Users\\moroz\\Documents\\Projects\\Pytorch Classifier\data\\plants\\dataset\\images\\labtest"
-test_dir = "C:\\Users\\moroz\\Documents\\Projects\\Pytorch Classifier\data\\plants\\dataset\\images\\labval"
+train_dir = ".\\data\\plants\\dataset\\images\\labtest"
+test_dir = ".\\data\\plants\\dataset\\images\\labval"
 
 lr = 0.01 #learn rate
 batch = 4 #batch size
