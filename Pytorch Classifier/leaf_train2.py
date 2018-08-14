@@ -3,37 +3,14 @@
 import my_transforms
 import numpy as np 
 from PIL import Image
-
-
-
-# null_transform = transforms.Compose([
-#     transforms.ToTensor()
-# ])
-# #load random image data
-# data = ImageFolder(root = "C:\\Users\\moroz\\Documents\\Projects\\Pytorch Classifier\data\\plants\\dataset\\images\\lab", transform = data_transform)
-# sampler = RandomSampler(data)
-# loader = DataLoader(data, sampler=sampler)
-
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from torchvision import transforms, datasets
-from torchvision.datasets import ImageFolder
+from torchvision.datasets import ImageFolder, Dataset
 from torchvision.transforms import ToTensor, CenterCrop
 from torch.utils.data import DataLoader, RandomSampler
-from torch.utils.data.dataset import Dataset 
-import my_transforms
 import numpy as np 
-from PIL import Image
-
-# transforms
-# data_transform = transforms.Compose([
-#     transforms.ToPILImage(),
-#     transforms.Resize(size=(500,600)),
-#     my_transforms.RandomRot(),
-#     transforms.RandomHorizontalFlip(),
-#     transforms.ToTensor()
-# ])
 
 #Data location
 train_dir = ".\\data\\plants\\dataset\\images\\labtest"
@@ -53,7 +30,6 @@ if __name__ == '__main__':
 
     #transforms
     data_transform = transforms.Compose([
-   
         transforms.CenterCrop(500),
         my_transforms.RandomRot(),
         transforms.RandomHorizontalFlip(),
